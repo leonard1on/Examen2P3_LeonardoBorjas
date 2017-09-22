@@ -45,3 +45,7 @@ void Ciudadano::setDislikes(vector<string> pdislikes){
 Ciudadano::~Ciudadano(){
   delete quirk;
 }
+
+Ciudadano::Ciudadano(){
+
+}

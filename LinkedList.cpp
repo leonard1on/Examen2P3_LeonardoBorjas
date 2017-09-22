@@ -1,11 +1,10 @@
 #include "LinkedList.h"
 #include <iostream>
-#include "Luchador.h"
-#include "Guerrero.h"
-#include "Aprendiz.h"
-#include "Mago.h"
-#include "Alquimista.h"
-#include "Dragonborn.h"
+#include "Ciudadano.h"
+#include "Quirk.h"
+#include "Emmitter.h"
+#include "Transformation.h"
+#include "Mutant.h"
 
 using namespace std;
 
@@ -15,9 +14,9 @@ LinkedList::LinkedList(){
   size=0;
 }
 
-void LinkedList::addLuchador(Luchador* luchador){
+void LinkedList::addLuchador(Ciudadano* ciudadano){
   Node* nuevo = new Node;
-  nuevo->luchador = luchador;
+  nuevo->ciudadano = ciudadano;
   nuevo->next = NULL;
   if (head==NULL) {
     head=nuevo;
@@ -35,19 +34,19 @@ void LinkedList::display(){
   Node* nuevo=new Node;
   nuevo=head;
   while (nuevo!=NULL) {
-    cout<<cuenta <<". " <<nuevo->luchador->getNombre()<<endl;
+    cout<<cuenta <<". " <<nuevo->ciudadano->getNombre()<<endl;
     nuevo=nuevo->next;
     cuenta++;
   }
 }
 
-void LinkedList::insert(int pos, Luchador* pLuchador){
+void LinkedList::insert(int pos, Ciudadano* pCiudadano){
   Node* antes=new Node;
   Node* ahora=new Node;
   Node* nuevo=new Node;
   ahora=head;
   if (pos==1) {
-    nuevo->luchador=pLuchador;
+    nuevo->ciudadano=pCiudadano;
     nuevo->next=head;
     head=nuevo;
   }else{
@@ -55,7 +54,7 @@ void LinkedList::insert(int pos, Luchador* pLuchador){
       antes=ahora;
       ahora=ahora->next;
     }
-    nuevo->luchador=pLuchador;
+    nuevo->ciudadano=pCiudadano;
     antes->next=nuevo;
     nuevo->next=ahora;
   }
@@ -83,7 +82,7 @@ int LinkedList::getSize(){
   return size;
 }
 
-Luchador* LinkedList::get(int pos){
+Ciudadano* LinkedList::get(int pos){
   Node* nuevo=new Node;
   nuevo=head;
   if (pos!=1) {
@@ -91,5 +90,5 @@ Luchador* LinkedList::get(int pos){
       nuevo=nuevo->next;
     }
   }
-  return nuevo->luchador;
+  return nuevo->ciudadano;
 }

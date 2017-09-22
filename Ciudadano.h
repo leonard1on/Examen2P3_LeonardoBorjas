@@ -8,7 +8,7 @@
 using namespace std;
 
 class Ciudadano {
-private:
+protected:
   string nombre;
   int edad;
   string nacimiento;
@@ -21,6 +21,7 @@ private:
   Quirk* quirk;
 
 public:
+  Ciudadano();
   Ciudadano (string, int, string, float, string, string, string, Quirk*);
   string getNombre();
   Quirk* getQuirk();

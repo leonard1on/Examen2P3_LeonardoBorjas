@@ -1,16 +1,17 @@
 #pragma once
 #include <iostream>
-#include "Luchador.h"
-#include "Guerrero.h"
-#include "Aprendiz.h"
-#include "Mago.h"
-#include "Alquimista.h"
-#include "Dragonborn.h"
+#include "Ciudadano.h"
+#include "Maestro.h"
+#include "Estudiante.h"
+#include "Quirk.h"
+#include "Emmitter.h"
+#include "Transformation.h"
+#include "Mutant.h"
 
 using namespace std;
 
 struct Node {
-  Luchador* luchador;
+  Ciudadano* ciudadano;
   Node* next;
 };
 
@@ -21,10 +22,10 @@ class LinkedList{
     int size;
   public:
     LinkedList();
-    void addLuchador(Luchador*);
+    void addLuchador(Ciudadano*);
     void display();
-    void insert(int, Luchador*);
+    void insert(int, Ciudadano*);
     void remove(int);
     int getSize();
-    Luchador* get(int);
+    Ciudadano* get(int);
 };
