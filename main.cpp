@@ -1,26 +1,79 @@
 #include "LinkedList.h"
 #include <string>
 #include <iostream>
+#include <typeinfo>
 using namespace std;
 
 int menu();
-Maestro* crearMaestro();
+Ciudadano* crearMaestro();
+Ciudadano* crearEstudiante(LinkedList*);
 int main(int argc, char const *argv[]) {
   int resp;
-  LinkedList ciudadanos;
+  int seleccion;
+  LinkedList* ciudadanos = new LinkedList();
 
   do {
+    int cont=0;
     resp=menu();
     if (resp==1) {
-
+      ciudadanos->addCiudadano(crearMaestro());
     }
+
+    if (resp==2) {
+      for (size_t i = 0; i < ciudadanos->getSize(); i++) {
+        if (typeid(*ciudadanos->get(i))==typeid(Maestro)) {
+          cont++;
+        }
+      }
+      if (cont>0) {
+        do{
+          ciudadanos->displayMaestros();
+          cout<<"Elija uno!";
+          cin>>seleccion;
+        }while(typeid(ciudadanos->get(seleccion))!=typeid(Maestro));
+        ciudadanos->remove(seleccion);
+      }else{
+        cout<<"No hay maestros" <<endl;
+      }
+    }
+
+    if (resp==3) {
+      for (size_t i = 0; i < ciudadanos->getSize(); i++) {
+        if (typeid(*ciudadanos->get(i))==typeid(Maestro)) {
+          cont++;
+        }
+      }
+      if (cont>0) {
+        ciudadanos->addCiudadano(crearEstudiante(ciudadanos));
+      }else{
+        cout<<"No hay maestros" <<endl;
+      }
+    }
+
+    if (resp==4) {
+      do{
+        ciudadanos->displayEstudiantes();
+        cout<<"Elija uno!";
+        cin>>seleccion;
+      }while(typeid(ciudadanos->get(seleccion))!=typeid(Estudiante));
+      ciudadanos->remove(seleccion);
+    }
+
+    if (resp==5) {
+      ciudadanos->displayMaestros();
+    }
+
+    if (resp==6) {
+      ciudadanos->displayEstudiantes();
+    }
+
   } while(resp!=11);
   return 0;
 }
 
 int menu(){
   int resp;
-  cout<<"- Menu -" <<endl
+  cout<<endl <<"- Menu -" <<endl
     <<"1.  Contratar Maestro"<<endl
     <<"2.  Despedir Maestro" <<endl
     <<"3.  Matricula Alumno" <<endl
@@ -37,6 +90,250 @@ int menu(){
   return resp;
 }
 
-Maestro* crearMaestro(){
+Ciudadano* crearMaestro(){
+  string nombre;
+  int edad;
+  string nacimiento;
+  float altura;
+  string colorPelo;
+  string colorOjos;
+  vector<string> likes;
+  vector<string> dislikes;
+  string sangre;
+  Quirk* quirk;
+  int resp1;
+  Ciudadano* ciudadano;
 
+  cout<<"Nombre?: ";
+  cin>>nombre;
+  cout<<"Edad?: ";
+  cin>>edad;
+  cout<<"Cuando nacio?: ";
+  cin>>nacimiento;
+  cout<<"Altura?: ";
+  cin>>altura;
+  cout<<"Color del pelo?: ";
+  cin>>colorPelo;
+  cout<<"Color de Ojos?: ";
+  cin>>colorOjos;
+  do {
+    string like;
+    cout<<"Que like tiene?: ";
+    cin>>like;
+    likes.push_back(like);
+    cout<<"Tiene otro? 0=Si 1=No: ";
+    cin>>resp1;
+  } while(resp1!=1);
+
+  do {
+    string dislike;
+    cout<<"Que dislike tiene?: ";
+    cin>>dislike;
+    dislikes.push_back(dislike);
+    cout<<"Tiene otro? 0=Si 1=No: ";
+    cin>>resp1;
+  } while(resp1!=1);
+
+  cout<<"Sangre?: ";
+  cin>>sangre;
+  do {
+    cout<<"Que Quirk quiere crear" <<endl
+      <<"1. Emmitter" <<endl
+      <<"2. Transformation" <<endl
+      <<"3. Mutant" <<endl
+      <<"//:";
+    cin>>resp1;
+    string descripcion;
+    if (resp1==1) {
+      string efecto;
+      int objetosAfectados;
+      bool contacto=true;
+      string fisico;
+      cout<<"Descripcion: ";
+      cin>>descripcion;
+      cout<<"Cual es el efecto?: ";
+      cin>>efecto;
+      cout<<"Cuantos Objetos Afecta por emision?: ";
+      cin>>objetosAfectados;
+      cout<<"Necesita contacto fisico? si o no: ";
+      cin>>fisico;
+      if (fisico=="no") {
+        contacto=false;
+      }
+      quirk=new Emmitter(efecto, objetosAfectados, contacto, descripcion);
+    }
+
+    if (resp1==2 ) {
+      string forma;
+      int cantImpactos;
+      bool afecteOtros=true;
+      string fisico;
+      cout<<"Descripcion: ";
+      cin>>descripcion;
+      cout<<"Cual es la forma?: ";
+      cin>>forma;
+      cout<<"Cantidad de Impactos?: ";
+      cin>>afecteOtros;
+      cout<<"Afecta otros? si o no: ";
+      cin>>fisico;
+      if (fisico=="no") {
+        afecteOtros=false;
+      }
+      quirk=new Transformation(forma, afecteOtros, afecteOtros, descripcion);
+    }
+
+    if (resp1==3 ) {
+      string caracteristica;
+
+      string fisico;
+      cout<<"Descripcion: ";
+      cin>>descripcion;
+      cout<<"Cual es su caracteristica?: ";
+      cin>>caracteristica;
+      quirk=new Mutant(caracteristica, descripcion);
+    }
+  } while(resp1>3);
+  string homeroom;
+  string departamento;
+  string alias;
+  float sueldo;
+
+  cout<<"homeroom?: ";
+  cin>>homeroom;
+  cout<<"departamento?: ";
+  cin>>departamento;
+  cout<<"Alias?: ";
+  cin>>alias;
+  cout<<"Sueldo?: ";
+  cin>>sueldo;
+
+  ciudadano=new Maestro(homeroom, departamento, alias, sueldo, nombre, edad, nacimiento, altura, colorPelo, colorOjos, sangre, quirk);
+  ciudadano->setLikes(likes);
+  ciudadano->setDislikes(dislikes);
+  return ciudadano;
+}
+
+Ciudadano* crearEstudiante(LinkedList* ciudadanos){
+  string nombre;
+  int edad;
+  string nacimiento;
+  float altura;
+  string colorPelo;
+  string colorOjos;
+  vector<string> likes;
+  vector<string> dislikes;
+  string sangre;
+  Quirk* quirk;
+  int resp1;
+  Ciudadano* ciudadano;
+
+  cout<<"Nombre?: ";
+  cin>>nombre;
+  cout<<"Edad?: ";
+  cin>>edad;
+  cout<<"Cuando nacio?: ";
+  cin>>nacimiento;
+  cout<<"Altura?: ";
+  cin>>altura;
+  cout<<"Color del pelo?: ";
+  cin>>colorPelo;
+  cout<<"Color de Ojos?: ";
+  cin>>colorOjos;
+  do {
+    string like;
+    cout<<"Que like tiene?: ";
+    cin>>like;
+    likes.push_back(like);
+    cout<<"Tiene otro? 0=Si 1=No: ";
+    cin>>resp1;
+  } while(resp1!=1);
+
+  do {
+    string dislike;
+    cout<<"Que dislike tiene?: ";
+    cin>>dislike;
+    dislikes.push_back(dislike);
+    cout<<"Tiene otro? 0=Si 1=No: ";
+    cin>>resp1;
+  } while(resp1!=1);
+
+  cout<<"Sangre?: ";
+  cin>>sangre;
+  do {
+    cout<<"Que Quirk quiere crear" <<endl
+      <<"1. Emmitter" <<endl
+      <<"2. Transformation" <<endl
+      <<"3. Mutant" <<endl
+      <<"//:";
+    cin>>resp1;
+    string descripcion;
+    if (resp1==1) {
+      string efecto;
+      int objetosAfectados;
+      bool contacto=true;
+      string fisico;
+      cout<<"Descripcion: ";
+      cin>>descripcion;
+      cout<<"Cual es el efecto?: ";
+      cin>>efecto;
+      cout<<"Cuantos Objetos Afecta por emision?: ";
+      cin>>objetosAfectados;
+      cout<<"Necesita contacto fisico? si o no: ";
+      cin>>fisico;
+      if (fisico=="no") {
+        contacto=false;
+      }
+      quirk=new Emmitter(efecto, objetosAfectados, contacto, descripcion);
+    }
+
+    if (resp1==2 ) {
+      string forma;
+      int cantImpactos;
+      bool afecteOtros=true;
+      string fisico;
+      cout<<"Descripcion: ";
+      cin>>descripcion;
+      cout<<"Cual es la forma?: ";
+      cin>>forma;
+      cout<<"Cantidad de Impactos?: ";
+      cin>>afecteOtros;
+      cout<<"Afecta otros? si o no: ";
+      cin>>fisico;
+      if (fisico=="no") {
+        afecteOtros=false;
+      }
+      quirk=new Transformation(forma, afecteOtros, afecteOtros, descripcion);
+    }
+
+    if (resp1==3 ) {
+      string caracteristica;
+
+      string fisico;
+      cout<<"Descripcion: ";
+      cin>>descripcion;
+      cout<<"Cual es su caracteristica?: ";
+      cin>>caracteristica;
+      quirk=new Mutant(caracteristica, descripcion);
+    }
+  } while(resp1>3);
+  float promedio;
+  string homeroom;
+  Ciudadano* maestro;
+  int seleccion;
+  do{
+    ciudadanos->display();
+    cout<<"Elija uno!: ";
+    cin>>seleccion;
+    maestro=ciudadanos->get(seleccion);
+  }while(typeid(*ciudadanos->get(seleccion)) != typeid(Maestro));
+  cout<<"Promedio?: ";
+  cin>>promedio;
+  cout<<"homeroom?: ";
+  cin>>homeroom;
+
+
+  ciudadano=new Estudiante(promedio, homeroom, dynamic_cast<Maestro*>(maestro), nombre, edad, nacimiento, altura, colorPelo, colorOjos, sangre, quirk);
+  ciudadano->setLikes(likes);
+  ciudadano->setDislikes(dislikes);
+  return ciudadano;
 }

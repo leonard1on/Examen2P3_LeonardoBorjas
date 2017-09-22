@@ -22,8 +22,10 @@ class LinkedList{
     int size;
   public:
     LinkedList();
-    void addLuchador(Ciudadano*);
+    void addCiudadano(Ciudadano*);
     void display();
+    void displayMaestros();
+    void displayEstudiantes();
     void insert(int, Ciudadano*);
     void remove(int);
     int getSize();

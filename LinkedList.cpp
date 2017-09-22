@@ -5,7 +5,7 @@
 #include "Emmitter.h"
 #include "Transformation.h"
 #include "Mutant.h"
-
+#include <typeinfo>
 using namespace std;
 
 LinkedList::LinkedList(){
@@ -14,7 +14,7 @@ LinkedList::LinkedList(){
   size=0;
 }
 
-void LinkedList::addLuchador(Ciudadano* ciudadano){
+void LinkedList::addCiudadano(Ciudadano* ciudadano){
   Node* nuevo = new Node;
   nuevo->ciudadano = ciudadano;
   nuevo->next = NULL;
@@ -35,6 +35,32 @@ void LinkedList::display(){
   nuevo=head;
   while (nuevo!=NULL) {
     cout<<cuenta <<". " <<nuevo->ciudadano->getNombre()<<endl;
+    nuevo=nuevo->next;
+    cuenta++;
+  }
+}
+
+void LinkedList::displayMaestros(){
+  int cuenta=1;
+  Node* nuevo=new Node;
+  nuevo=head;
+  while (nuevo!=NULL) {
+    if(typeid (*nuevo->ciudadano) == typeid(Maestro)){
+      cout<<cuenta <<". " <<nuevo->ciudadano->getNombre()<<endl;
+    }
+    nuevo=nuevo->next;
+    cuenta++;
+  }
+}
+
+void LinkedList::displayEstudiantes(){
+  int cuenta=1;
+  Node* nuevo=new Node;
+  nuevo=head;
+  while (nuevo!=NULL) {
+    if(typeid (*nuevo->ciudadano) == typeid(Estudiante)){
+      cout<<cuenta <<". " <<nuevo->ciudadano->getNombre()<<endl;
+    }
     nuevo=nuevo->next;
     cuenta++;
   }
