@@ -1,4 +1,5 @@
 #include "LinkedList.h"
+#include "Music.h"
 #include <string>
 #include <iostream>
 #include <typeinfo>
@@ -9,6 +10,9 @@ int menu();
 Ciudadano* crearMaestro();
 void crearEstudiante(LinkedList*);
 int main(int argc, char const *argv[]) {
+  if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 ){}
+  Music music("Hero.wav");
+  music.play();
   int resp;
   int seleccion;
   LinkedList* ciudadanos = new LinkedList();
@@ -16,7 +20,7 @@ int main(int argc, char const *argv[]) {
   do {
     int cont=0;
     resp=menu();
-    
+
     if (resp==1) {
       ciudadanos->addCiudadano(crearMaestro());
     }
@@ -152,6 +156,7 @@ int main(int argc, char const *argv[]) {
     }
 
   } while(resp!=11);
+  music.halt();
   return 0;
 }
 

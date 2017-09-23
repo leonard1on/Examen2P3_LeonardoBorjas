@@ -1,7 +1,7 @@
-main: main.o Ciudadano.o Estudiante.o Maestro.o Quirk.o Emmitter.o Transformation.o Mutant.o LinkedList.o
-	g++ main.o Ciudadano.o Estudiante.o Maestro.o Quirk.o Emmitter.o Transformation.o Mutant.o LinkedList.o -o main
+main: main.o Ciudadano.o Estudiante.o Maestro.o Quirk.o Emmitter.o Transformation.o Mutant.o LinkedList.o Music.o
+	g++ main.o Ciudadano.o Estudiante.o Maestro.o Quirk.o Emmitter.o Transformation.o Mutant.o LinkedList.o Music.o -lSDL_mixer -o main
 
-main.o: main.cpp Ciudadano.h Estudiante.h Maestro.h Quirk.h Emmitter.h Transformation.h Mutant.h LinkedList.h
+main.o: main.cpp Ciudadano.h Estudiante.h Maestro.h Quirk.h Emmitter.h Transformation.h Mutant.h LinkedList.h Music.h
 	g++ -c main.cpp
 
 LinkedList.o: LinkedList.cpp LinkedList.h Ciudadano.h Quirk.h Emmitter.h Transformation.h Mutant.h
@@ -27,6 +27,9 @@ Transformation.o: Transformation.cpp Transformation.h Quirk.h
 
 Mutant.o: Mutant.cpp Mutant.h Quirk.h
 	g++ -c Mutant.cpp
+
+Music.o: Music.cpp Music.h
+	g++ -c Music.cpp
 
 clean:
 	rm *.o main
