@@ -138,6 +138,12 @@ int main(int argc, char const *argv[]) {
         cout<<endl;
       }
     }
+
+    if (resp==10) {
+      for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
+        cout<<dynamic_cast<Maestro*>(ciudadanos->get(i))->toString()<<endl;
+      }
+    }
   } while(resp!=11);
   return 0;
 }

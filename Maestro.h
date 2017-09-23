@@ -20,5 +20,6 @@ public:
   float getSueldo();
   LinkedList* getEstudiantes();
   string getDepartamento();
+  string toString();
   virtual ~Maestro ();
 };

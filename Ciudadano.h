@@ -29,5 +29,6 @@ public:
   vector<string> getDislikes();
   void setLikes(vector<string>);
   void setDislikes(vector<string>);
+  virtual string toString();
   virtual ~Ciudadano ();
 };
