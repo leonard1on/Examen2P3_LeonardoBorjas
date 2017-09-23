@@ -6,7 +6,7 @@ using namespace std;
 
 int menu();
 Ciudadano* crearMaestro();
-Ciudadano* crearEstudiante(LinkedList*);
+void crearEstudiante(LinkedList*);
 int main(int argc, char const *argv[]) {
   int resp;
   int seleccion;
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[]) {
           ciudadanos->displayMaestros();
           cout<<"Elija uno!";
           cin>>seleccion;
-        }while(typeid(ciudadanos->get(seleccion))!=typeid(Maestro));
+        }while(typeid(*ciudadanos->get(seleccion))!=typeid(Maestro));
         ciudadanos->remove(seleccion);
       }else{
         cout<<"No hay maestros" <<endl;
@@ -46,26 +46,34 @@ int main(int argc, char const *argv[]) {
         }
       }
       if (cont>0) {
-        ciudadanos->addCiudadano(crearEstudiante(ciudadanos));
+        crearEstudiante(ciudadanos);
       }else{
         cout<<"No hay maestros" <<endl;
       }
     }
 
     if (resp==4) {
+      int seleccion2;
       for (size_t i = 0; i < ciudadanos->getSize(); i++) {
         if (typeid(*ciudadanos->get(i))==typeid(Maestro)) {
           cont++;
         }
       }
       if (cont>0) {
-        do{
-          ciudadanos->displayEstudiantes();
-          cout<<"Elija uno!";
-          cin>>seleccion;
-        }while(typeid(*ciudadanos->get(seleccion))!=typeid(Estudiante));
-        delete ciudadanos->get(seleccion);
-        ciudadanos->remove(seleccion);
+        ciudadanos->displayMaestros();
+        cout<<"Elija un maestro de quien expulsar uno de sus estudiantes!";
+        cin>>seleccion;
+        if (dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->getSize() != 0) {
+          for (size_t j = 1; j <= dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->getSize(); j++) {
+            cout<<j <<". " <<dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->get(j)->getNombre() <<endl;
+          }
+          cout<<"Cual quiere expulsar";
+          cin>>seleccion2;
+          dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->remove(seleccion2);
+
+        }else{
+          cout<<"Ese maestro no tiene estudiantes"<<endl;
+        }
       }else{
         cout<<"No hay Estudiantes"<<endl;
       }
@@ -76,7 +84,15 @@ int main(int argc, char const *argv[]) {
     }
 
     if (resp==6) {
-      ciudadanos->displayEstudiantes();
+      for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
+
+        if (dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->getSize() != 0 ) {
+          for (size_t j = 1; j <= dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->getSize(); j++) {
+            cout<<dynamic_cast<Estudiante*>(dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->get(j))->getNombre()<<endl;
+          }
+        }
+
+      }
     }
 
     if (resp==7) {
@@ -95,10 +111,14 @@ int main(int argc, char const *argv[]) {
       float promedio=0;
       int numero=0;
       for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
-        if (typeid(*ciudadanos->get(i)) == typeid(Estudiante)) {
-          promedio+= (dynamic_cast<Estudiante*>(ciudadanos->get(i)))->getPromedio();
-          numero++;
+
+        if (dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->getSize() != 0 ) {
+          for (size_t j = 1; j <= dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->getSize(); j++) {
+            promedio+= dynamic_cast<Estudiante*>(dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->get(j))->getPromedio();
+            numero++;
+          }
         }
+
       }
       cout<<"Promedio de sueldos: "<<promedio/numero <<endl;
     }
@@ -264,7 +284,7 @@ Ciudadano* crearMaestro(){
   return ciudadano;
 }
 
-Ciudadano* crearEstudiante(LinkedList* ciudadanos){
+void crearEstudiante(LinkedList* ciudadanos){
   string nombre;
   int edad;
   string nacimiento;
@@ -387,6 +407,4 @@ Ciudadano* crearEstudiante(LinkedList* ciudadanos){
   ciudadano->setLikes(likes);
   ciudadano->setDislikes(dislikes);
   dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->addCiudadano(ciudadano);
-  cout<<dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->getSize();
-  return ciudadano;
 }
