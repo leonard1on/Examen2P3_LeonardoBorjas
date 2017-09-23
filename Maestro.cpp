@@ -25,14 +25,19 @@ string Maestro::getDepartamento(){
 string Maestro::toString(){
   string likess="";
   string dislikess="";
+  string estudiantess="";
   for (size_t i = 0; i < likes.size(); i++) {
     likess=likess+likes.at(i)+", ";
   }
   for (size_t i = 0; i < dislikes.size(); i++) {
     dislikess=dislikess+likes.at(i)+", ";
   }
-  string regreso="Nombre: "+nombre+" Edad: "+to_string(edad)+" Fecha de Nacimiento: "+nacimiento+" Altura: "+to_string(altura)+"\nColor de Pelo: "+colorPelo+" Color de Ojos: "+colorOjos+"Likes: "+likess+"\nDislikes: "+dislikess+" Quirk: "+typeid(*quirk).name()+"\n"+"homeroom: "+homeroom+" Departamento: "+departamento+" Alias: "+alias+" Sueldo: "+to_string(sueldo);+"\n";
 
+  for (size_t i = 1; i <= estudiantes->getSize(); i++) {
+    estudiantess+=dynamic_cast<Estudiante*>(estudiantes->get(i))->toString()+"\n";
+  }
+  string regreso="Maestro:\nNombre: "+nombre+" Edad: "+to_string(edad)+" Fecha de Nacimiento: "+nacimiento+" Altura: "+to_string(altura)+"\nColor de Pelo: "+colorPelo+" Color de Ojos: "+colorOjos+"Likes: "+likess+"\nDislikes: "+dislikess+" Quirk: "+typeid(*quirk).name()+"\n"+"homeroom: "+homeroom+" Departamento: "+departamento+" Alias: "+alias+" Sueldo: "+to_string(sueldo);
+  regreso+="\nEstudiantes: \n"+estudiantess+"\n";
   return regreso;
 }
 Maestro::~Maestro(){

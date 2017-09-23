@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <typeinfo>
+#include <fstream>
 using namespace std;
 
 int menu();
@@ -140,10 +141,15 @@ int main(int argc, char const *argv[]) {
     }
 
     if (resp==10) {
-      for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
-        cout<<dynamic_cast<Maestro*>(ciudadanos->get(i))->toString()<<endl;
+      ofstream file("Log.txt");
+      if (file.is_open()) {
+        for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
+          file << dynamic_cast<Maestro*>(ciudadanos->get(i))->toString();
+        }
       }
+      file.close();
     }
+
   } while(resp!=11);
   return 0;
 }

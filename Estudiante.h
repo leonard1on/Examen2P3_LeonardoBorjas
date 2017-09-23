@@ -19,5 +19,6 @@ public:
   Estudiante();
   Estudiante (float, string, Maestro*, string, int, string, float, string, string, string, Quirk*);
   float getPromedio();
+  string toString();
   virtual ~Estudiante ();
 };
