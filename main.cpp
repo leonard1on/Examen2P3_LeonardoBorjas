@@ -20,6 +20,7 @@ int main(int argc, char const *argv[]) {
     }
 
     if (resp==2) {
+      cont=0;
       for (size_t i = 0; i < ciudadanos->getSize(); i++) {
         if (typeid(*ciudadanos->get(i))==typeid(Maestro)) {
           cont++;
@@ -38,6 +39,7 @@ int main(int argc, char const *argv[]) {
     }
 
     if (resp==3) {
+      cont=0;
       for (size_t i = 0; i < ciudadanos->getSize(); i++) {
         if (typeid(*ciudadanos->get(i))==typeid(Maestro)) {
           cont++;
@@ -51,12 +53,22 @@ int main(int argc, char const *argv[]) {
     }
 
     if (resp==4) {
-      do{
-        ciudadanos->displayEstudiantes();
-        cout<<"Elija uno!";
-        cin>>seleccion;
-      }while(typeid(ciudadanos->get(seleccion))!=typeid(Estudiante));
-      ciudadanos->remove(seleccion);
+      for (size_t i = 0; i < ciudadanos->getSize(); i++) {
+        if (typeid(*ciudadanos->get(i))==typeid(Maestro)) {
+          cont++;
+        }
+      }
+      if (cont>0) {
+        do{
+          ciudadanos->displayEstudiantes();
+          cout<<"Elija uno!";
+          cin>>seleccion;
+        }while(typeid(*ciudadanos->get(seleccion))!=typeid(Estudiante));
+        delete ciudadanos->get(seleccion);
+        ciudadanos->remove(seleccion);
+      }else{
+        cout<<"No hay Estudiantes"<<endl;
+      }
     }
 
     if (resp==5) {
@@ -95,8 +107,12 @@ int main(int argc, char const *argv[]) {
       for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
 
         if (typeid(*ciudadanos->get(i)) == typeid(Maestro)) {
-          for (size_t j = 0; j <= dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->getSize() ; j++) {
-            cout<<"Departamento: "<<dynamic_cast<Maestro*>(ciudadanos->get(i))->getDepartamento() <<" Alumno: " <<dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->get(j)->getNombre() <<endl;
+          if(dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->getSize() != 0){
+
+            for (size_t j = 1; j <= dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->getSize() ; j++) {
+              cout<<"Departamento: "<<dynamic_cast<Maestro*>(ciudadanos->get(i))->getDepartamento() <<" Alumno: " <<dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->get(j)->getNombre() <<endl;
+            }
+
           }
         }
         cout<<endl;
@@ -371,6 +387,6 @@ Ciudadano* crearEstudiante(LinkedList* ciudadanos){
   ciudadano->setLikes(likes);
   ciudadano->setDislikes(dislikes);
   dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->addCiudadano(ciudadano);
-
+  cout<<dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->getSize();
   return ciudadano;
 }
