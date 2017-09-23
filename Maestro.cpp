@@ -10,6 +10,18 @@ Maestro::Maestro(string pHomeroom, string pDepartamento, string pAlias, float pS
   estudiantes = new LinkedList();
 }
 
+float Maestro::getSueldo(){
+  return sueldo;
+}
+
+LinkedList* Maestro::getEstudiantes(){
+  return estudiantes;
+}
+
+string Maestro::getDepartamento(){
+  return departamento;
+}
+
 Maestro::~Maestro(){
   delete quirk;
 }

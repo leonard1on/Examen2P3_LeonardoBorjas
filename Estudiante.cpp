@@ -8,6 +8,10 @@ Estudiante::Estudiante(float pPromedio, string pHomeroom, Maestro* pMaestro, str
   maestro=pMaestro;
 }
 
+float Estudiante::getPromedio(){
+  return promedio;
+}
+
 Estudiante::~Estudiante(){
   delete maestro;
   delete quirk;

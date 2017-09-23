@@ -67,6 +67,41 @@ int main(int argc, char const *argv[]) {
       ciudadanos->displayEstudiantes();
     }
 
+    if (resp==7) {
+      float sueldo=0;
+      int maestrosnum=0;
+      for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
+        if (typeid(*ciudadanos->get(i)) == typeid(Maestro)) {
+          sueldo+= (dynamic_cast<Maestro*>(ciudadanos->get(i)))->getSueldo();
+          maestrosnum++;
+        }
+      }
+      cout<<"Promedio de sueldos: "<<sueldo/maestrosnum <<endl;
+    }
+
+    if (resp==8) {
+      float promedio=0;
+      int numero=0;
+      for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
+        if (typeid(*ciudadanos->get(i)) == typeid(Estudiante)) {
+          promedio+= (dynamic_cast<Estudiante*>(ciudadanos->get(i)))->getPromedio();
+          numero++;
+        }
+      }
+      cout<<"Promedio de sueldos: "<<promedio/numero <<endl;
+    }
+
+    if (resp==9) {
+      for (size_t i = 1; i <= ciudadanos->getSize(); i++) {
+
+        if (typeid(*ciudadanos->get(i)) == typeid(Maestro)) {
+          for (size_t j = 0; j <= dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->getSize() ; j++) {
+            cout<<"Departamento: "<<dynamic_cast<Maestro*>(ciudadanos->get(i))->getDepartamento() <<" Alumno: " <<dynamic_cast<Maestro*>(ciudadanos->get(i))->getEstudiantes()->get(j)->getNombre() <<endl;
+          }
+        }
+        cout<<endl;
+      }
+    }
   } while(resp!=11);
   return 0;
 }
@@ -321,7 +356,7 @@ Ciudadano* crearEstudiante(LinkedList* ciudadanos){
   Ciudadano* maestro;
   int seleccion;
   do{
-    ciudadanos->display();
+    ciudadanos->displayMaestros();
     cout<<"Elija uno!: ";
     cin>>seleccion;
     maestro=ciudadanos->get(seleccion);
@@ -335,5 +370,7 @@ Ciudadano* crearEstudiante(LinkedList* ciudadanos){
   ciudadano=new Estudiante(promedio, homeroom, dynamic_cast<Maestro*>(maestro), nombre, edad, nacimiento, altura, colorPelo, colorOjos, sangre, quirk);
   ciudadano->setLikes(likes);
   ciudadano->setDislikes(dislikes);
+  dynamic_cast<Maestro*>(ciudadanos->get(seleccion))->getEstudiantes()->addCiudadano(ciudadano);
+
   return ciudadano;
 }

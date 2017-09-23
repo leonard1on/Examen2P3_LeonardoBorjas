@@ -17,5 +17,8 @@ private:
 public:
   Maestro();
   Maestro (string, string, string, float, string, int, string, float, string, string, string, Quirk*  );
+  float getSueldo();
+  LinkedList* getEstudiantes();
+  string getDepartamento();
   virtual ~Maestro ();
 };
